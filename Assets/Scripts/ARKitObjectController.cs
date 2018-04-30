@@ -29,7 +29,7 @@ public class ARKitObjectController : MonoBehaviour
 
         }
 
-        ChildrenSetActive(false);
+        ChildrenSetActive(parentGameObject, false);
 
     }
 
@@ -108,7 +108,7 @@ public class ARKitObjectController : MonoBehaviour
 
                 anchorSet = true;
 
-                ChildrenSetActive(true);
+                ChildrenSetActive(parentGameObject, true);
 
                 parentGameObject.transform.position = UnityARMatrixOps.GetPosition(hitResults[0].worldTransform);
                 parentGameObject.transform.rotation = UnityARMatrixOps.GetRotation(hitResults[0].worldTransform);
@@ -125,7 +125,7 @@ public class ARKitObjectController : MonoBehaviour
 
         anchorSet = false;
 
-        ChildrenSetActive(false);
+        ChildrenSetActive(parentGameObject, false);
 
     }
 
@@ -141,7 +141,7 @@ public class ARKitObjectController : MonoBehaviour
 
     }
 
-    private void ChildrenSetActive(bool active)
+    private static void ChildrenSetActive(GameObject parentGameObject, bool active)
     {
 
         foreach (Transform childTransform in parentGameObject.transform)
