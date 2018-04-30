@@ -101,22 +101,33 @@ public class ARKitObjectController : MonoBehaviour
                 y = screenPosition.y
             };
 
-            List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface().HitTest(point, ARHitTestResultType.ARHitTestResultTypeHorizontalPlane);
-
-            if (hitResults.Count > 0)
-            {
-
-                anchorSet = true;
-
-                ChildrenSetActive(parentGameObject, true);
-
-                parentGameObject.transform.position = UnityARMatrixOps.GetPosition(hitResults[0].worldTransform);
-                parentGameObject.transform.rotation = UnityARMatrixOps.GetRotation(hitResults[0].worldTransform);
-                parentGameObject.transform.LookAt(new Vector3(mainCamera.transform.position.x, parentGameObject.transform.position.y, mainCamera.transform.position.z));
-
-            }
+            HitTestWithResultType(point, ARHitTestResultType.ARHitTestResultTypeHorizontalPlane);
 
         }
+
+    }
+
+    private bool HitTestWithResultType(ARPoint point, ARHitTestResultType arHitTestResultTypes)
+    {
+
+        List<ARHitTestResult> hitResults = UnityARSessionNativeInterface.GetARSessionNativeInterface().HitTest(point, arHitTestResultTypes);
+
+        if (hitResults.Count > 0)
+        {
+
+            anchorSet = true;
+
+            ChildrenSetActive(parentGameObject, true);
+
+            parentGameObject.transform.position = UnityARMatrixOps.GetPosition(hitResults[0].worldTransform);
+            parentGameObject.transform.rotation = UnityARMatrixOps.GetRotation(hitResults[0].worldTransform);
+            parentGameObject.transform.LookAt(new Vector3(mainCamera.transform.position.x, parentGameObject.transform.position.y, mainCamera.transform.position.z));
+
+            return true;
+
+        }
+
+        return false;
 
     }
 
