@@ -9,6 +9,8 @@ using UnityEngine.XR.iOS;
 public class ARKitObjectController : MonoBehaviour
 {
 
+    public GameObject parentGameObject;
+
     public Text textComp;
 
     public Camera mainCamera;
@@ -19,6 +21,13 @@ public class ARKitObjectController : MonoBehaviour
 
     private void Awake()
     {
+
+        if (parentGameObject == null)
+        {
+
+            parentGameObject = gameObject;
+
+        }
 
         ChildrenSetActive(false);
 
@@ -94,9 +103,9 @@ public class ARKitObjectController : MonoBehaviour
 
                 ChildrenSetActive(true);
 
-                gameObject.transform.position = UnityARMatrixOps.GetPosition(hitResults[0].worldTransform);
-                gameObject.transform.rotation = UnityARMatrixOps.GetRotation(hitResults[0].worldTransform);
-                gameObject.transform.LookAt(new Vector3(mainCamera.transform.position.x, gameObject.transform.position.y, mainCamera.transform.position.z));
+                parentGameObject.transform.position = UnityARMatrixOps.GetPosition(hitResults[0].worldTransform);
+                parentGameObject.transform.rotation = UnityARMatrixOps.GetRotation(hitResults[0].worldTransform);
+                parentGameObject.transform.LookAt(new Vector3(mainCamera.transform.position.x, parentGameObject.transform.position.y, mainCamera.transform.position.z));
 
             }
 
@@ -128,7 +137,7 @@ public class ARKitObjectController : MonoBehaviour
     private void ChildrenSetActive(bool active)
     {
 
-        foreach (Transform childTransform in gameObject.transform)
+        foreach (Transform childTransform in parentGameObject.transform)
         {
 
             childTransform.gameObject.SetActive(active);
