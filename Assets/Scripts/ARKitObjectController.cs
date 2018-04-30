@@ -162,4 +162,11 @@ public class ARKitObjectController : MonoBehaviour
 
     }
 
+    private void OnDestroy()
+    {
+
+        UnityARSessionNativeInterface.ARFrameUpdatedEvent -= ARFrameUpdated;
+
+    }
+
 }
