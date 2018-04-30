@@ -61,6 +61,13 @@ public class ARKitObjectController : MonoBehaviour
 
         }
 
+        if (mainCamera.gameObject.GetComponent<UnityARCameraNearFar>() == null)
+        {
+
+            mainCamera.gameObject.AddComponent<UnityARCameraNearFar>();
+
+        }
+
         if (mainCamera.gameObject.GetComponent<UnityARCameraManager>() == null)
         {
 
